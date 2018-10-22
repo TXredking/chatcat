@@ -1,5 +1,5 @@
 'use strict';
-const router = require('express').Router();
+const utils = require('../utils');
 
 module.exports = () => {
     let routes = {
@@ -19,5 +19,5 @@ module.exports = () => {
         }
     }
 
-    //Iterate through the routes object and mount the routes
+    return utils.route(routes);
 }
