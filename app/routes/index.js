@@ -12,6 +12,13 @@ module.exports = () => {
             },
             '/chat': (req, res, next) => {
                 res.render('chatroom');
+            },
+            '/getsession': (req, res, next) => {
+                res.send('Session Test: ' + req.session.test);
+            },
+            '/setsession': (req, res, next) => {
+                req.session.test = "success";
+                res.send("Session Set");
             }
         },
         'post': {
