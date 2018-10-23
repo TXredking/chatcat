@@ -1,6 +1,7 @@
 'use strict';
 const utils = require('../utils');
 const passport = require('passport');
+const config = require('../config');
 
 module.exports = () => {
     let routes = {
@@ -10,12 +11,14 @@ module.exports = () => {
             },
             '/rooms': [utils.isAuthenticated, (req, res, next) => {
                 res.render('rooms', {
-                    user: req.user
+                    user: req.user,
+                    host: config.host
                 });
             }],
             '/chat': [utils.isAuthenticated, (req, res, next) => {
                 res.render('chatroom', {
-                    user: req.user
+                    user: req.user,
+                    host: config.host
                 });
             }],
             '/auth/facebook': passport.authenticate('facebook'),
