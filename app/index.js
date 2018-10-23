@@ -1,9 +1,7 @@
 'use strict';
-// const router = require('express').Router();
-//
-// router.get('/', (req, res, next) => {
-//     res.render('login')
-// });
+
+// Social Authentication Logic
+require('./auth')();
 
 module.exports = {
     router: require('./routes')(),
