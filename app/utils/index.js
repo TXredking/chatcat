@@ -2,6 +2,7 @@
 
 const router = require('express').Router();
 const db = require('../db');
+const crypto = require('crypto');
 
 //Iterate through the routes object and mount the routes
 let _registerRoutes = (routes, method) => {
@@ -72,10 +73,43 @@ let isAuthenticated = (req, res, next) => {
     }
 }
 
+// Find a chatroom by a given name
+// TODO: Better room name matching using regex.
+let findRoomByName = (allrooms, room) => {
+    let findRoom = allrooms.findIndex((element, index, array) => {
+        if(element.room === room) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    return findRoom > -1 ? true : false;
+}
+
+// A function that generates a unique roomID
+let randomHex = () => {
+    return crypto.randomBytes(24).toString('hex');
+}
+
+// Find a chatroom with a given ID
+let findRoomById = (allrooms, roomID) => {
+    return allrooms.find((element, index, array) => {
+        if(element.roomID == roomID) {
+            return true;
+        } else {
+            return false;
+        }
+    })
+}
+
 module.exports = {
     route,
     findOne,
     createNewUser,
     findById,
-    isAuthenticated
+    isAuthenticated,
+    findRoomByName,
+    findRoomById,
+    randomHex
 }
