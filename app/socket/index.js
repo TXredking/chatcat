@@ -18,12 +18,29 @@ module.exports = (io, app) => {
                     roomID: utils.randomHex(),
                     users: []
                 });
-
                 // Emit an updated list to the creator
                 socket.emit('chatRoomsList', JSON.stringify(allrooms));
                 // Emit an updated list to everyone connected to the rooms page
                 socket.broadcast.emit('chatRoomsList', JSON.stringify(allrooms));
             }
+        });
+    });
+
+    io.of('/chatter').on('connection', socket => {
+        socket.on('join', data => {
+            // TODO: Need to account for if allrooms is empty
+            let usersList = utils.addUserToRoom(allrooms, data, socket);
+
+            // Update the list of active users as shown on the chatroom page
+            socket.broadcast.to(data.roomID).emit('updateUsersList', JSON.stringify(usersList.users));
+            socket.emit('updateUsersList', JSON.stringify(usersList.users));
+        });
+
+        // When a socket exits
+        socket.on('disconnect', () => {
+            // Find the room, to which the socket is connected to and purge the user
+            let room = utils.removeUserFromRoom(allrooms, socket);
+            socket.broadcast.to(room.roomID).emit('updateUsersList', JSON.stringify(room.users));
         });
     });
 }
