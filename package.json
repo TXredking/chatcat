@@ -8,6 +8,9 @@
   },
   "author": "Rory McLaughlin",
   "license": "ISC",
+  "engines": {
+      "node": "10.12.0"
+  },
   "dependencies": {
     "connect-mongo": "^2.0.1",
     "ejs": "^2.6.1",
